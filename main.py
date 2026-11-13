@@ -30,7 +30,7 @@ def main():
     merge2 = attach_keys(merge1, logistics, ['Shipping carriers', 'Transportation modes', 'Routes'])
     merge2 = merge2.drop(columns=['Supplier name', 'Location', 'Shipping carriers', 'Transportation modes', 'Routes', 'Product type', 'Price'])
 
-    create_db(products, logistics, suppliers, merge2)
+   
 
 if __name__ == "__main__":
     main()

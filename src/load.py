@@ -8,12 +8,13 @@ def create_db(dim1, dim2, dim3, fact):
     db_connect = sqlite3.connect(datadir)
     db_connect.execute("PRAGMA foreign_keys=ON")
 
-    query_drop_facttable = 'DROP TABLE IF EXISTS fact'
-    query_drop = 'DROP TABLE IF EXISTS dim1'
+    query_drop_facttable = 'DROP TABLE IF EXISTS supply_chain_datas'
+    query4 = 'CREATE TABLE supply_chain_datas  (SKU VARCHAR(20), Availability INTEGER, "Number of products sold" INTEGER, "Revenue generated" REAL, "Customer demographics" VARCHAR(20), "Stock levels" INTEGER, "Lead times" REAL, "Order quantities" INTEGER, "Shipping times" REAL, "Shipping costs" REAL, "Lead time" REAL, "Production volumes" INTEGER, "Manufacturing lead time" REAL, "Manufacturing costs" REAL, "Inspection results" VARCHAR(20), "Defect rates" REAL, "Costs" REAL, "Supplier index" INTEGER, "Logistics index" INTEGER, FOREIGN KEY (SKU) REFERENCES products(SKU), FOREIGN KEY ("Supplier index") REFERENCES suppliers("Supplier index"), FOREIGN KEY ("Logistics index") REFERENCES logistics("Logistics index"))'
+    query_drop = 'DROP TABLE IF EXISTS products'
     query = 'CREATE TABLE products (SKU VARCHAR(20) PRIMARY KEY, "Product type" VARCHAR(20), Price REAL);'
-    query_drop2 = 'DROP TABLE IF EXISTS dim2'
+    query_drop2 = 'DROP TABLE IF EXISTS logistics'
     query2 = 'CREATE TABLE logistics ("Logistics index" INTEGER PRIMARY KEY, "Shipping carriers" VARCHAR(20), "Transportation modes" VARCHAR(20), Routes VARCHAR(20));'
-    query_drop3 = 'DROP TABLE IF EXISTS dim3'     
+    query_drop3 = 'DROP TABLE IF EXISTS suppliers'     
     query3 = 'CREATE TABLE suppliers ("Supplier index" INTEGER PRIMARY KEY, "Supplier name" VARCHAR(20), Location VARCHAR(20));'
 
     db_connect.execute(query_drop_facttable)
@@ -23,6 +24,8 @@ def create_db(dim1, dim2, dim3, fact):
     db_connect.execute(query2)
     db_connect.execute(query_drop3)
     db_connect.execute(query3)
+    db_connect.execute(query4)
+
 
 #load into db
 #1 identify target
@@ -49,9 +52,10 @@ def create_db(dim1, dim2, dim3, fact):
 #connection1 = sqlite3.connect('database.db')
 #oltp_product.to_sql('logistics', connection1)
 
-dim1.to_sql('products', db_connect)
-dim2.to_sql('logistics', db_connect)
-dim3.to_sql('suppliers', db_connect)
+    dim1.to_sql('products', db_connect, if_exists="append", index=False)
+    dim2.to_sql('logistics', db_connect, if_exists="append", index=False)
+    dim3.to_sql('suppliers', db_connect, if_exists="append", index=False)
+    fact.to_sql('supply_chain_datas', db_connect, if_exists="append", index=False)
 
     db_connect.commit()
     db_connect.close()
