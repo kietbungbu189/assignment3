@@ -5,6 +5,7 @@ from src.transform import build_dim_logistics
 from src.transform import build_dim_product
 from src.transform import attach_keys
 from src.config import DB
+from src.load import create_db
 
 def main():
     print(f"Printing the first 5 rows of {RAW_CSV}")
@@ -28,6 +29,8 @@ def main():
     merge1 = attach_keys(raw, suppliers, ['Supplier name', 'Location'])
     merge2 = attach_keys(merge1, logistics, ['Shipping carriers', 'Transportation modes', 'Routes'])
     merge2 = merge2.drop(columns=['Supplier name', 'Location', 'Shipping carriers', 'Transportation modes', 'Routes', 'Product type', 'Price'])
+
+    create_db(products, logistics, suppliers, merge2)
 
 if __name__ == "__main__":
     main()
