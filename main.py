@@ -4,8 +4,11 @@ from src.transform import build_dim_supplier
 from src.transform import build_dim_logistics
 from src.transform import build_dim_product
 from src.transform import attach_keys
+from src.config import DB
 
 def main():
+    print(f"Printing the first 5 rows of {RAW_CSV}")
+
     raw = read_fact_csv(RAW_CSV)
     suppliers = build_dim_supplier(raw)
     print(f"Raw rows: {len(raw)}")
