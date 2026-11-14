@@ -9,6 +9,10 @@ from src.load import create_db
 from src.validate import check_relationship
 from src.validate import validate_warehouse
 from src.analytics import check_low_stock
+from src.analytics import priority_stock
+from src.analytics import classify_stock
+from src.analytics import total_revenue
+from src.analytics import broadcast
 
 def main():
     print(f"Printing the first 5 rows of {RAW_CSV}")
@@ -36,6 +40,21 @@ def main():
     create_db(products, logistics, suppliers, merge2)
     
     validate_warehouse(DB)
+
+    low_stock = check_low_stock(merge2, 'Stock levels')
+    print(low_stock.head())
+
+    priority = priority_stock(merge2, 'Stock levels', 'Number of products sold')
+    print(priority.head())
+
+    classify = merge2['Stock levels'].apply(classify_stock)
+    print(classify.head())
+
+    total = total_revenue(merge2, 'Revenue generated')
+    print(total)
+
+    profit = broadcast(merge2)
+    print(profit)
 
 if __name__ == "__main__":
     main()
