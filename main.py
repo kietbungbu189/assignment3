@@ -13,6 +13,8 @@ from src.analytics import priority_stock
 from src.analytics import classify_stock
 from src.analytics import total_revenue
 from src.analytics import broadcast
+from src.analytics import shipping_costs
+from src.analytics import boxes_required
 
 def main():
     print(f"Printing the first 5 rows of {RAW_CSV}")
@@ -55,6 +57,12 @@ def main():
 
     profit = broadcast(merge2)
     print(profit)
+
+    shipping = shipping_costs(merge2)
+    print(shipping.head())
+
+    boxes = boxes_required(merge2, 'Number of products sold')
+    print(boxes.head())
 
 if __name__ == "__main__":
     main()

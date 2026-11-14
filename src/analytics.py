@@ -1,6 +1,7 @@
 import pandas as pd
 import functools
 import numpy as np
+import math
 
 #1 check if stock levels are above threshold
 #required_stocklevel = 20 
@@ -73,10 +74,10 @@ def total_revenue(table, revenue_column):
     return total
 
 #5 Broadcast in Numpy
-#2.6.1.1 Method 1
+#5.1 Method 1
 #df_data_array = np.arange(len(df_data['Stock levels'])).reshape(len(df_data['Stock levels']), 1)
 
-#2.6.1.2 Method 2
+#5.2 Method 2
 #selected_columns = ['Revenue generated', 'Shipping costs', 'Defect rates']
 
 #numeric_data = df_data[selected_columns].apply(pd.to_numeric)
@@ -109,3 +110,13 @@ def broadcast(table):
     d_profit = finite_across_data[:,0] - (finite_across_data[:,1]*finite_across_data[:,2])
     return d_profit
     
+#6 Calculate shipping costs
+def shipping_costs(table):
+    selected_columns = ['SKU', 'Shipping costs']
+    a = table[selected_columns].groupby('SKU').mean()
+    return a
+
+#7 Warehouse scenario, suppose 1 box holds 12 units
+def boxes_required(table, quantity_column, box_unit=12):
+    table['Boxes required'] = table[quantity_column].apply(lambda x:math.ceil(x/box_unit))
+    return table['Boxes required']
