@@ -8,6 +8,7 @@ from src.config import DB
 from src.load import create_db
 from src.validate import check_relationship
 from src.validate import validate_warehouse
+from src.analytics import check_low_stock
 
 def main():
     print(f"Printing the first 5 rows of {RAW_CSV}")
