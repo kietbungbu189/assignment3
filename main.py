@@ -17,6 +17,7 @@ from src.analytics import shipping_costs
 from src.analytics import boxes_required
 from src.log import log_analysis
 from src.analytics import below_20_stock
+from src.transform import options
 
 def main():
     print(f"Printing the first 5 rows of {RAW_CSV}")
@@ -70,6 +71,9 @@ def main():
     print(low_20.head())
     
     log_analysis(merge2, total, low_stock)
+
+    options_to_choose = options(products, suppliers, logistics)
+    print(options_to_choose.head())
 
 if __name__ == "__main__":
     main()
