@@ -15,6 +15,7 @@ from src.analytics import total_revenue
 from src.analytics import broadcast
 from src.analytics import shipping_costs
 from src.analytics import boxes_required
+from src.log import log_analysis
 
 def main():
     print(f"Printing the first 5 rows of {RAW_CSV}")
@@ -63,6 +64,8 @@ def main():
 
     boxes = boxes_required(merge2, 'Number of products sold')
     print(boxes.head())
+
+    log_analysis()
 
 if __name__ == "__main__":
     main()
