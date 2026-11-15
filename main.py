@@ -18,6 +18,7 @@ from src.analytics import boxes_required
 from src.log import log_analysis
 from src.analytics import below_20_stock
 from src.transform import options
+from src.analytics import restock
 
 def main():
     print(f"Printing the first 5 rows of {RAW_CSV}")
@@ -74,6 +75,11 @@ def main():
 
     options_to_choose = options(products, suppliers, logistics)
     print(options_to_choose.head())
+
+    rstk = restock(low_20, 'Stock levels')
+    print(rstk.head()) 
+
+    
 
 if __name__ == "__main__":
     main()

@@ -130,6 +130,6 @@ def below_20_stock(table, stock_column):
 def restock(below_20, quantity_column, restock_to=50):
     below_20_copy = below_20.copy()
     below_20_copy['Quantity to order'] = below_20_copy[quantity_column].apply(lambda x: restock_to-x)
-    return below_20_copy['Quantity to order']
+    return below_20_copy[['SKU', 'Quantity to order']]
 
 
