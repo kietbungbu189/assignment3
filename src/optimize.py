@@ -6,9 +6,9 @@ def optimize(dim_supplier, restock_table):
     for SKU, qty in zip(restock_table['SKU'], restock_table['Quantity to order']):
         restock_dict[SKU] = qty
 #matching/filtering step
+    dim_supplier_dict = {}
 # Method 1
 #    to_order = []
-#    dim_supplier_dict = {}
 #    for SKU in restock_table['SKU']:
 #print(my_series.values)
 #        if SKU in dim_supplier['SKU'].values
