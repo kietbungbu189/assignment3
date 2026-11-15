@@ -120,3 +120,8 @@ def shipping_costs(table):
 def boxes_required(table, quantity_column, box_unit=12):
     table['Boxes required'] = table[quantity_column].apply(lambda x:math.ceil(x/box_unit))
     return table['Boxes required']
+
+#8 Find products with stocks below 20
+def below_20_stock(table, stock_column):
+    below_20 = table[table[stock_column]<20]
+    return below_20
