@@ -19,6 +19,7 @@ from src.log import log_analysis
 from src.analytics import below_20_stock
 from src.transform import options
 from src.analytics import restock
+from src.optimize import optimize
 
 def main():
     print(f"Printing the first 5 rows of {RAW_CSV}")
@@ -79,7 +80,8 @@ def main():
     rstk = restock(low_20, 'Stock levels')
     print(rstk.head()) 
 
-    
+    optiz = optimize(options_to_choose, rstk)
+    print(optiz.head())
 
 if __name__ == "__main__":
     main()
