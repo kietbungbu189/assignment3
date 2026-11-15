@@ -125,3 +125,11 @@ def boxes_required(table, quantity_column, box_unit=12):
 def below_20_stock(table, stock_column):
     below_20 = table[table[stock_column]<20]
     return below_20
+
+#9 Define restock condition
+def restock(below_20, quantity_column, restock_to=50):
+    below_20_copy = below_20.copy()
+    below_20_copy['Quantity to order'] = below_20_copy[quantity_column].apply(lambda x: restock_to-x)
+    return below_20_copy['Quantity to order']
+
+
