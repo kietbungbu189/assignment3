@@ -2,6 +2,7 @@ import pulp
 import pandas as pd
 
 def optimize(dim_supplier_withSKU, restock_table):
+#STEP1
     restock_dict = {}
     for SKU, qty in zip(restock_table['SKU'], restock_table['Quantity to order']):
         restock_dict[SKU] = qty
@@ -23,4 +24,7 @@ def optimize(dim_supplier_withSKU, restock_table):
     dim_supplier_withSKU.loc[dim_supplier_withSKU.SKU.isin(to_order)].head()
 #save to a variable
     filtered_supplier = dim_supplier_withSKU.loc[dim_supplier_withSKU.SKU.isin(to_order)]
+
+#STEP2 
+    prob = pulp.LpProblem("Restock_Order", pulp.LpMinimize)
     return filtered_supplier
