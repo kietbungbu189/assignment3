@@ -26,12 +26,29 @@ def optimize(dim_supplier_withSKU, restock_table):
     filtered_supplier = dim_supplier_withSKU.loc[dim_supplier_withSKU.SKU.isin(to_order)]
 
 #P2 
-    prob = pulp.LpProblem("Restock_Order", pulp.LpMinimize)
+    to_minimize_prob = pulp.LpProblem("Restock_Order", pulp.LpMinimize)
     
 #P3
     order_qty_choices = {}
     user_supply_switches = {}
     for index, row_ in filtered_supplier.iterrows():
-        order_qty_choices[index] = pulp.LpVariable(lowBound=0, cat="Integer")
-        user_supply_switches[index] = pulp.LpVariable(lowBound=0, cat="Binary")
+        order_qty_choices[index] = pulp.LpVariable(f"order_qty{index}", lowBound=0, cat="Integer")
+        user_supply_switches[index] = pulp.LpVariable(f"supply_switch{index}", lowBound=0, cat="Binary")
+    
+#P4
+    per_item_cost = {}
+    for index, row_ in filtered_supplier.iterrows():
+        per_item_cost[index] = (row_['Per-unit purchase cost'] + row_['Holding_Cost'])*order_qty_choices[index] + user_supply_switches[index]*row_['Shipping cost']    
+#    print(my_series.values)
+    per_item = pulp.lpSum(per_item_cost.values())
+    to_minimize_prob += per_item
+    
+#P5
+#for key, value in person.items():
+#    print(key, "→", value)
+    for key, value in restock_dict.items():
+#        if filtered_supplier['SKU'] == key
+#if statement is the right logic, just not used appropriately structure-wise
+        filtered_for_restock.index = filtered_supplier['SKU'] == key
+        filtered_for_restock = filtered_supplier[filtered_for_restock]
     return filtered_supplier
