@@ -80,7 +80,7 @@ def main():
     rstk = restock(low_20, 'Stock levels')
     print(rstk.head()) 
 
-    optiz = optimize(options_to_choose, rstk, budget)
+    optiz = optimize(options_to_choose, rstk, budget=10000)
     print(optiz.head())
 
 if __name__ == "__main__":
