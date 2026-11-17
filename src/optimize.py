@@ -69,7 +69,7 @@ def optimize(dim_supplier_withSKU, restock_table, budget):
         for idx_to_reorder in filtered_for_restock
 #            revenue = product[sales_id] * quantity
         )
-#connect sum(...) directly to == value inside to_minimize_prob +=
+#connect sum(...) directly to <= value inside to_minimize_prob +=
     to_minimize_prob += per_item <=budget
     for index, row_ in filtered_supplier.iterrows():
 #use row_['Max capacity'] instead of just the reorder qty topup        
@@ -83,5 +83,17 @@ def optimize(dim_supplier_withSKU, restock_table, budget):
     to_minimize_prob.solve()
     rsult = {}
     for index2, value2 in order_qty_choices.items():
-        rsult[index2] = order_qty_choices.varValue()
-    return filtered_supplier
+        rsult[index2] = value2.varValue
+    filtered_supplier2 = filtered_supplier.copy()
+#string_lengths = map(len, ["dog", "cat", "zebra", "turtle"])
+#    mask_unified_monthly = map(lambda x, y, z, u: pd.notna(x) and pd.notna(y) and pd.notna(z) and pd.notna(u), unified_monthly["Opening quantity"],
+#                                    unified_monthly["Received quantity"], unified_monthly["Issued quantity"], unified_monthly["Closing quantity"])
+# Step 1: Grab the row labels (NO parentheses here)
+#    a = filtered_supplier2.index
+#index is an attribute just like varValue
+# Step 2: Run the .map() action on 'a' using a dot
+#    b = a.map(rsult)
+    a = filtered_supplier2.index
+    filtered_supplier2['Optimized order'] = a.map(rsult)
+#    filtered_supplier2['Optimized order'] = filtered_supplier2.map(rsult)
+    return filtered_supplier2
