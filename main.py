@@ -81,7 +81,7 @@ def main():
     print(rstk.head()) 
 
     optiz = optimize(options_to_choose, rstk, budget=10000)
-    print(optiz.head())
+    print(optiz)
 
 if __name__ == "__main__":
     main()

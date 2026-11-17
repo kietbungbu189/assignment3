@@ -32,9 +32,15 @@ def optimize(dim_supplier_withSKU, restock_table, budget):
     order_qty_choices = {}
     user_supply_switches = {}
     for index, row_ in filtered_supplier.iterrows():
-        order_qty_choices[index] = pulp.LpVariable(f"order_qty{index}", lowBound=0, cat="Integer")
-        user_supply_switches[index] = pulp.LpVariable(f"supply_switch{index}", lowBound=0, cat="Binary")
-    
+#Pulp 2.0
+#        order_qty_choices[index] = pulp.LpVariable(f"order_qty{index}", lowBound=0, cat="Integer")
+#Pulp 4.0
+        order_qty_choices[index] = to_minimize_prob.add_variable(f"order_qty{index}", lowBound=0, cat="Integer")
+#Pulp 2.0        
+#        user_supply_switches[index] = pulp.LpVariable(f"supply_switch{index}", lowBound=0, cat="Binary")
+#Pulp 4.0
+        user_supply_switches[index] = to_minimize_prob.add_variable(f"supply_switch{index}", lowBound=0, cat="Binary")
+
 #P4
     per_item_cost = {}
     for index, row_ in filtered_supplier.iterrows():
