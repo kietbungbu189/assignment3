@@ -1,7 +1,7 @@
 import pulp
 import pandas as pd
 
-def optimize(dim_supplier_withSKU, restock_table):
+def optimize(dim_supplier_withSKU, restock_table, budget):
 #P1
     restock_dict = {}
     for SKU, qty in zip(restock_table['SKU'], restock_table['Quantity to order']):
@@ -38,7 +38,7 @@ def optimize(dim_supplier_withSKU, restock_table):
 #P4
     per_item_cost = {}
     for index, row_ in filtered_supplier.iterrows():
-        per_item_cost[index] = (row_['Per-unit purchase cost'] + row_['Holding_Cost'])*order_qty_choices[index] + user_supply_switches[index]*row_['Shipping cost']    
+        per_item_cost[index] = (row_['Per-unit purchase cost'] + row_.get('Holding cost', 0))*order_qty_choices[index] + user_supply_switches[index]*row_['Shipping cost']    
 #    print(my_series.values)
     per_item = pulp.lpSum(per_item_cost.values())
     to_minimize_prob += per_item
@@ -48,7 +48,40 @@ def optimize(dim_supplier_withSKU, restock_table):
 #    print(key, "→", value)
     for key, value in restock_dict.items():
 #        if filtered_supplier['SKU'] == key
-#if statement is the right logic, just not used appropriately structure-wise
-        filtered_for_restock.index = filtered_supplier['SKU'] == key
-        filtered_for_restock = filtered_supplier[filtered_for_restock]
+#if statement is the right logic, just not used appropriately structure-wise -> fixed:
+        if key not in list(filtered_supplier['SKU']):
+            continue
+        else:
+#In #P3, you named your solver variables after row numbers (0, 1, 2), not SKU
+            filtered_for_restock = filtered_supplier[filtered_supplier['SKU']==key].index
+# Method 2
+#        filtered_for_restock = filtered_supplier['SKU'] == key
+#if write the folliwng line of code it would be error because filtered_for_restock...
+#... is already a DataFrame
+#        filtered_for_restock = filtered_supplier[filtered_for_restock]
+#instead
+#        filtered_for_restock = filtered_supplier['SKU'].index 
+#this 1 next line is done by exactly the sum() statement below 
+#        to_minimize_prob += 'to order' = restock_dict[value]
+#        sum(scores.values())
+            to_minimize_prob += value <= sum(
+        order_qty_choices[idx_to_reorder]
+        for idx_to_reorder in filtered_for_restock
+#            revenue = product[sales_id] * quantity
+        )
+#connect sum(...) directly to == value inside to_minimize_prob +=
+    to_minimize_prob += per_item <=budget
+    for index, row_ in filtered_supplier.iterrows():
+#use row_['Max capacity'] instead of just the reorder qty topup        
+#        max_to_order = restock_dict[row_['SKU']]
+        max_to_order = row_['Max capacity']  
+        to_minimize_prob += max_to_order*user_supply_switches[index] >= order_qty_choices[index]          
+        min_to_order = row_['Minimum order quantity']
+        to_minimize_prob += min_to_order*user_supply_switches[index] <= order_qty_choices[index]     
+    
+#P6
+    to_minimize_prob.solve()
+    rsult = {}
+    for index2, value2 in order_qty_choices.items():
+        rsult[index2] = order_qty_choices.varValue()
     return filtered_supplier
