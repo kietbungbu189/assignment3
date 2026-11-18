@@ -92,6 +92,7 @@ def parse_book(html):
 #title is directly in the product_pod box but to find e.g price you have to... 
 #... open a sub-box in that named "price_colour"
         tag_BeautifulSoup_parsed_price = tag.find("p", class_="price_color").get_text(strip=True)
+        tag_BeautifulSoup_parsed_price = float(tag_BeautifulSoup_parsed_price.replace("£", ""))
 #index [0] will give value "star-rating" as in <p class="star-rating Three">
         tag_BeautifulSoup_parsed_rating = tag.find("p", class_="star-rating")["class"][1]
 #use result as key to dictionary RATING_MAP, retrieve value: db_host = config.DATABASE["host"]
@@ -104,7 +105,7 @@ def parse_book(html):
 #removing the extra braces will cause a SyntaxError because...
 #... Python dictionaries always require ONE pair of outer curly braces { ... }
         flatten_data_list.append({"Book title": tag_BeautifulSoup_parsed_title, 
-                                "Price": tag_BeautifulSoup_parsed_price, 
+                                "Price (£)": tag_BeautifulSoup_parsed_price, 
                                 "Rating": tag_BeautifulSoup_parsed_rating_number, 
                                 "Stock": tag_BeautifulSoup_parsed_stock, 
                                 "URL": tag_BeautifulSoup_parsed_url})
