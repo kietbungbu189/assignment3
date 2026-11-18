@@ -3,8 +3,7 @@ import numpy as np
 from bs4 import BeautifulSoup
 from src.config import RATING_MAP
 from src.extract import scrape_books
-from src.config import extract_website
-from src.config import RATING_MAP
+from src.extract import extract_website
 
 ##3 flatten data
 ##flatten_data = {} a dictionary only holds 1 value per key, works for {'Timestamp': [data_from_internetorfile['timestamp']], 
@@ -13,7 +12,7 @@ from src.config import RATING_MAP
 ## but not for this, in this create a list instead (post 1 arrives: flatten_data['posttext'] = "Hello world"
 ##                                                then post 2 arrives: flatten_data['posttext'] = "I love Canada" -> Post 2 erases Post 1!)
 ## this does NOT create a list instead of a dictionary, this creates a LIST of dictionary
-def parse_book(html, page_number_parse_book):
+def parse_book(html):
     flatten_data_list = []
 #for post in line_or_data:
 #    flatten_data_list.append({'personpost': post['account']['acct'], 'posttext': post['content'], 
@@ -104,10 +103,11 @@ def parse_book(html, page_number_parse_book):
 #... appends a single dictionary instead of a list of 5 tiny dictionaries
 #removing the extra braces will cause a SyntaxError because...
 #... Python dictionaries always require ONE pair of outer curly braces { ... }
-        flatten_data_list.append("Book title": tag_BeautifulSoup_parsed_title, 
+        flatten_data_list.append({"Book title": tag_BeautifulSoup_parsed_title, 
                                 "Price": tag_BeautifulSoup_parsed_price, 
                                 "Rating": tag_BeautifulSoup_parsed_rating_number, 
                                 "Stock": tag_BeautifulSoup_parsed_stock, 
-                                "URL": tag_BeautifulSoup_parsed_url)
+                                "URL": tag_BeautifulSoup_parsed_url})
+    return flatten_data_list
 
 
