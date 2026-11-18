@@ -6,6 +6,7 @@ import requests
 from src.transform import parse_book
 from src.config import OUTPUT_CSV
 import pandas as pd
+from src.log import log_analysis
 
 
 def main():
@@ -18,6 +19,8 @@ def main():
     df = pd.DataFrame(data_dict)
 
     create_csv(df, OUTPUT_CSV)
+
+    log_analysis(df)
 
 if __name__ == "__main__":
     main()
