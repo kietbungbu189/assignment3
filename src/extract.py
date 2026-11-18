@@ -20,10 +20,11 @@ def extract_website(session, path):
 #this is for local file reading
 #    file_or_data = response_or_file.readline()
 #.text is an attribute like .varValue so no ()
+#.encoding is also an attribute
+    response_or_file.encoding = "utf-8"
     file_or_data = response_or_file.text
     return file_or_data
     
-
 #def fetch_page(...) only defines the recipe—Python doesn't actually run it until scrape_books() calls it later
 
 def scrape_books(session, page_number):
