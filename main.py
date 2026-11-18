@@ -7,6 +7,7 @@ from src.transform import parse_book
 from src.config import OUTPUT_CSV
 import pandas as pd
 from src.log import log_analysis
+from src.analytics import graph
 
 
 def main():
@@ -21,6 +22,8 @@ def main():
     create_csv(df, OUTPUT_CSV)
 
     log_analysis(df)
+
+    graph(file_or_data_main)
 
 if __name__ == "__main__":
     main()

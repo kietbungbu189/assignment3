@@ -105,7 +105,7 @@ def parse_book(html):
 #removing the extra braces will cause a SyntaxError because...
 #... Python dictionaries always require ONE pair of outer curly braces { ... }
         flatten_data_list.append({"Book title": tag_BeautifulSoup_parsed_title, 
-                                "Price (£)": tag_BeautifulSoup_parsed_price, 
+                                "Price": tag_BeautifulSoup_parsed_price, 
                                 "Rating": tag_BeautifulSoup_parsed_rating_number, 
                                 "Stock": tag_BeautifulSoup_parsed_stock, 
                                 "URL": tag_BeautifulSoup_parsed_url})

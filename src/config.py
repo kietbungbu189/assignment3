@@ -4,6 +4,8 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 OUTPUT_CSV = PROJECT_ROOT / "data" / "processed" / "books_scraped.csv"
 DB = PROJECT_ROOT / "data" / "database.db"
 LOG = PROJECT_ROOT / "logs" / "log.txt"
+HIST = PROJECT_ROOT / "docs" / "histogram.png"
+BAR_CHART = PROJECT_ROOT / "docs" / "bar_chart.png"
 WEBSITE = "https://books.toscrape.com/catalogue/page-{page}.html"
 RATING_MAP = {
     "One": 1,
