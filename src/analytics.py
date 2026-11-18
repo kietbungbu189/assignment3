@@ -17,7 +17,7 @@ def top_10(table):
 
 
 
-def graph(table):
+def graph(top_10table):
 #plot histogram
 #    df_data3.hist(column="rating", figsize=(15, 10), bins=10)
 #    plt.savefig('../img/show_histogram')

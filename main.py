@@ -8,6 +8,7 @@ from src.config import OUTPUT_CSV
 import pandas as pd
 from src.log import log_analysis
 from src.analytics import graph
+from src.analytics import top_10
 
 
 def main():
@@ -23,7 +24,8 @@ def main():
 
     log_analysis(df)
 
-    graph(file_or_data_main)
+    top = top_10(file_or_data_main)
+    graph(top)
 
 if __name__ == "__main__":
     main()
