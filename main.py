@@ -13,12 +13,17 @@ from src.analytics import rating_count
 
 def main():
     session_main = requests.Session()
-#Dependency Injection    
-    file_or_data_main = scrape_books(session_main, 1)
-    print(file_or_data_main[:500])
-
-    data_dict = parse_book(file_or_data_main)
-    df = pd.DataFrame(data_dict)
+#Dependency Injection  
+    all_books = []
+    for pg in range(1, 6):
+        file_or_data_main = scrape_books(session_main, pg)
+        print(file_or_data_main[:500])
+        
+        data_dict = parse_book(file_or_data_main)
+#data_dict is a list of 20 books. .append() puts the whole box inside all_books, creating...
+#... 5 nested lists (which makes pd.DataFrame() build a broken 5-row × 20-column table)        
+        all_books.extend(data_dict)
+    df = pd.DataFrame(all_books)
 
     create_csv(df, OUTPUT_CSV)
 

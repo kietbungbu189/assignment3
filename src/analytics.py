@@ -29,7 +29,7 @@ def graph(table, top_10table, ratingCt):
 #plot histogram
 #    df_data3.hist(column="rating", figsize=(15, 10), bins=10)
 #    plt.savefig('../img/show_histogram')
-    table.plot(kind="hist", y="Price", figsize=(12, 8), bins=5)
+    table.plot(kind="hist", y="Price", figsize=(12, 8), bins=10)
     plt.savefig(HIST)
     plt.clf()
     top_10table.plot(kind="barh", y="Price", figsize=(12, 8), x="Book title")
