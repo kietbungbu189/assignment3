@@ -21,9 +21,9 @@ def graph(top_10table):
 #plot histogram
 #    df_data3.hist(column="rating", figsize=(15, 10), bins=10)
 #    plt.savefig('../img/show_histogram')
-    table.plot(kind="hist", y="Price", figsize=(12, 8), bins=10)
+    top_10table.plot(kind="hist", y="Price", figsize=(12, 8), bins=10)
     plt.savefig(HIST)
-    table.plot(kind="barh", y="Price", figsize=(12, 8), x="Book title")
+    top_10table.plot(kind="barh", y="Price", figsize=(12, 8), x="Book title")
     plt.savefig(BAR_CHART)
     return
 
