@@ -9,7 +9,7 @@ import pandas as pd
 from src.log import log_analysis
 from src.analytics import graph
 from src.analytics import top_10
-
+from src.analytics import rating_count
 
 def main():
     session_main = requests.Session()
@@ -24,8 +24,9 @@ def main():
 
     log_analysis(df)
 
+    rate = rating_count(df)
     top = top_10(df)
-    graph(top)
+    graph(df, top, rate)
 
 if __name__ == "__main__":
     main()
