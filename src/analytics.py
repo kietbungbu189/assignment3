@@ -13,7 +13,7 @@ def top_10(table):
 #        .sort_values('rating', ascending=False)
 #)
     top = table.sort_values('Price', ascending=False)
-    return top_ten.head(10)
+    return top.head(10)
 
 
 
