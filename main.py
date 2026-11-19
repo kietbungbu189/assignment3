@@ -24,7 +24,7 @@ def main():
 
     log_analysis(df)
 
-    top = top_10(file_or_data_main)
+    top = top_10(df)
     graph(top)
 
 if __name__ == "__main__":

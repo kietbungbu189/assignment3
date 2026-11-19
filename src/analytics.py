@@ -23,7 +23,7 @@ def graph(top_10table):
 #    plt.savefig('../img/show_histogram')
     table.plot(kind="hist", y="Price", figsize=(12, 8), bins=10)
     plt.savefig(HIST)
-    table.plot(kind="barh", y="Price", figsize=(12, 8))
+    table.plot(kind="barh", y="Price", figsize=(12, 8), x="Book title")
     plt.savefig(BAR_CHART)
     return
 
